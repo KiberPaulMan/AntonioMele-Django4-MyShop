@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404
 from shop.models import Category, Product
+from django.core.signing import JSONSerializer
 
 
 def product_list(request, category_slug=None):
@@ -9,7 +10,7 @@ def product_list(request, category_slug=None):
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
-
+    print('SESSION = ', request.session.__dict__)
     return render(request,
                   'shop/product/list.html',
                   {'category': category,
