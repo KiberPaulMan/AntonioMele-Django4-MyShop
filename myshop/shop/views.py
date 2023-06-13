@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from shop.models import Category, Product
 from django.core.signing import JSONSerializer
 
+from cart.forms import CartAddProductForm
+
 
 def product_list(request, category_slug=None):
     category = None
@@ -10,7 +12,7 @@ def product_list(request, category_slug=None):
     if category_slug:
         category = get_object_or_404(Category, slug=category_slug)
         products = products.filter(category=category)
-    print('SESSION = ', request.session.__dict__)
+    # print('SESSION = ', request.session.__dict__)
     return render(request,
                   'shop/product/list.html',
                   {'category': category,
@@ -19,7 +21,9 @@ def product_list(request, category_slug=None):
 
 
 def product_detail(request, id, slug):
-    product = get_object_or_404(Product, id=id, slug=slug)
+    product = get_object_or_404(Product, id=id, slug=slug, available=True)
+    cart_product_form = CartAddProductForm()
     return render(request,
                   'shop/product/detail.html',
-                  {'product': product})
+                  {'product': product,
+                   'cart_product_form': cart_product_form})
