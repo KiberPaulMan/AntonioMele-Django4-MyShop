@@ -132,3 +132,6 @@ MEDIA_ROOT = BASE_DIR / 'media'
 
 # Ключ для хранения корзины в пользовательском сеансе
 CART_SESSION_ID = 'cart'
+
+# Вывод отправки письма в консоль
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
